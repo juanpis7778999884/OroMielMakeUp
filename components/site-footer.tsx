@@ -7,14 +7,21 @@ import type { Settings } from "@/lib/types"
 
 export function SiteFooter({ settings }: { settings?: Settings | null }) {
   return (
-    <footer className="mt-0 border-t border-border/40 bg-background">
-      <div className="mx-auto grid max-w-[1400px] gap-12 px-5 pt-20 pb-12 sm:px-8 md:grid-cols-2 lg:grid-cols-12 lg:px-12">
+    <footer className="mt-0 border-t border-border/60 bg-background">
+      {/* Editorial statement band */}
+      <div className="mx-auto max-w-[1500px] border-b border-border/40 px-5 py-20 sm:px-8 sm:py-24 lg:px-14">
+        <p className="eyebrow mb-6">Oromiel Makeup</p>
+        <h2 className="max-w-3xl text-balance font-serif text-[2rem] font-light leading-[1.1] tracking-[-0.01em] text-foreground sm:text-4xl lg:text-5xl">
+          {settings?.hero_title ?? "Belleza que te hace brillar"}
+        </h2>
+      </div>
+
+      <div className="mx-auto grid max-w-[1500px] gap-12 px-5 pt-16 pb-12 sm:px-8 md:grid-cols-2 lg:grid-cols-12 lg:px-14">
         {/* Brand column */}
         <div className="lg:col-span-4">
           <BrandLogo size={32} />
           <p className="mt-6 max-w-xs text-[0.8rem] font-light leading-[1.8] text-muted-foreground">
-            {settings?.hero_title ?? "Belleza que te hace brillar"}. Tu nuevo lugar favorito para realzar tu belleza y
-            cuidar tu piel.
+            Tu nuevo lugar favorito para realzar tu belleza y cuidar tu piel en El Carmen de Chucurí.
           </p>
           {settings?.instagram && (
             <p className="mt-6 text-[0.7rem] font-light tracking-[0.15em] uppercase text-muted-foreground">
@@ -98,7 +105,7 @@ export function SiteFooter({ settings }: { settings?: Settings | null }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
-                className="flex size-9 items-center justify-center rounded-full border border-border/60 text-muted-foreground transition-all duration-300 hover:border-foreground/30 hover:text-foreground"
+                className="flex size-10 items-center justify-center border border-border/60 text-muted-foreground transition-all duration-500 hover:border-foreground hover:bg-foreground hover:text-background"
               >
                 <FaInstagram className="size-4" />
               </a>
@@ -109,7 +116,7 @@ export function SiteFooter({ settings }: { settings?: Settings | null }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
-                className="flex size-9 items-center justify-center rounded-full border border-border/60 text-muted-foreground transition-all duration-300 hover:border-foreground/30 hover:text-foreground"
+                className="flex size-10 items-center justify-center border border-border/60 text-muted-foreground transition-all duration-500 hover:border-foreground hover:bg-foreground hover:text-background"
               >
                 <FaFacebook className="size-4" />
               </a>
@@ -119,8 +126,8 @@ export function SiteFooter({ settings }: { settings?: Settings | null }) {
       </div>
 
       {/* Bottom bar */}
-      <div className="border-t border-border/30">
-        <div className="mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-3 px-5 py-7 text-[0.68rem] font-light tracking-[0.08em] text-muted-foreground/60 sm:flex-row sm:px-8 lg:px-12">
+      <div className="border-t border-border/40">
+        <div className="mx-auto flex max-w-[1500px] flex-col items-center justify-between gap-3 px-5 py-7 text-[0.68rem] font-light tracking-[0.08em] text-muted-foreground/60 sm:flex-row sm:px-8 lg:px-14">
           <p>&copy; {new Date().getFullYear()} Oromiel Makeup. Todos los derechos reservados.</p>
           <p>El Carmen de Chucurí, Santander</p>
         </div>

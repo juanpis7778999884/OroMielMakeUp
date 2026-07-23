@@ -7,28 +7,22 @@ import type { Testimonial } from "@/lib/types"
 export function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {
   if (!testimonials.length) return null
   return (
-    <section className="mx-auto max-w-[1400px] px-5 py-20 sm:px-8 sm:py-28">
-      <div className="mb-14 text-center">
-        <motion.span
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="text-[0.7rem] font-light tracking-[0.3em] uppercase text-muted-foreground"
-        >
-          Testimonios
-        </motion.span>
-        <motion.h2
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-          className="mt-3 font-serif text-3xl font-light text-foreground md:text-4xl"
-        >
-          Lo que dicen nuestras clientas
-        </motion.h2>
+    <section className="mx-auto max-w-[1500px] px-5 py-20 sm:px-8 sm:py-28 lg:px-14">
+      {/* Editorial header */}
+      <div className="mb-12 flex flex-col justify-between gap-6 border-b border-border/50 pb-8 md:flex-row md:items-end">
+        <div>
+          <div className="mb-4 flex items-center gap-3">
+            <span className="text-[0.62rem] font-light tracking-[0.24em] text-gold tabular-nums">02</span>
+            <span className="h-px w-8 bg-gold/60" />
+            <span className="eyebrow">Testimonios</span>
+          </div>
+          <h2 className="max-w-xl text-balance font-serif text-4xl font-light leading-[1.05] tracking-[-0.01em] text-foreground md:text-5xl">
+            Lo que dicen nuestras clientas
+          </h2>
+        </div>
       </div>
-      <div className="grid gap-4 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
+
+      <div className="grid gap-px overflow-hidden border border-border/50 bg-border/50 sm:grid-cols-2 lg:grid-cols-4">
         {testimonials.map((t, i) => (
           <motion.figure
             key={t.id}
@@ -36,19 +30,22 @@ export function TestimonialsSection({ testimonials }: { testimonials: Testimonia
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-30px" }}
             transition={{ duration: 0.5, delay: i * 0.07 }}
-            className="flex flex-col gap-5 border border-border/40 bg-background p-7 transition-all duration-500 hover:border-border/70 hover:shadow-[0_4px_30px_oklch(0_0_0/0.03)]"
+            className="flex flex-col gap-6 bg-background p-8 transition-colors duration-500 hover:bg-secondary/40 sm:p-9"
           >
-            <div className="flex gap-0.5 text-foreground/30" aria-label={`${t.rating} de 5 estrellas`}>
-              {Array.from({ length: t.rating }).map((_, i) => (
-                <Star key={i} className="size-3.5 fill-current" />
-              ))}
+            <div className="flex items-center justify-between">
+              <div className="flex gap-1 text-gold" aria-label={`${t.rating} de 5 estrellas`}>
+                {Array.from({ length: t.rating }).map((_, s) => (
+                  <Star key={s} className="size-3 fill-current" />
+                ))}
+              </div>
+              <span className="font-serif text-3xl font-light leading-none text-border">&rdquo;</span>
             </div>
-            <blockquote className="flex-1 font-serif text-[1.05rem] font-light italic leading-[1.7] text-foreground/80">
-              {`"${t.content}"`}
+            <blockquote className="flex-1 font-serif text-[1.15rem] font-light italic leading-[1.6] text-foreground/85">
+              {t.content}
             </blockquote>
-            <figcaption className="border-t border-border/30 pt-4">
-              <span className="block text-[0.8rem] font-medium text-foreground">{t.author}</span>
-              {t.role && <span className="mt-0.5 block text-[0.72rem] font-light text-muted-foreground">{t.role}</span>}
+            <figcaption className="border-t border-border/40 pt-5">
+              <span className="block text-[0.78rem] font-medium tracking-wide text-foreground">{t.author}</span>
+              {t.role && <span className="mt-1 block text-[0.7rem] font-light tracking-[0.1em] uppercase text-muted-foreground">{t.role}</span>}
             </figcaption>
           </motion.figure>
         ))}
