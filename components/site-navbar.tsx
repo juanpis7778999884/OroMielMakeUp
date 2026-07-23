@@ -36,16 +36,16 @@ export function SiteNavbar() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-500",
         scrolled
-          ? "border-b border-border/40 bg-background/90 shadow-[0_1px_0_oklch(0_0_0/0.03)] backdrop-blur-xl"
-          : "bg-transparent",
+          ? "border-b border-border/60 bg-background/85 backdrop-blur-2xl"
+          : "border-b border-transparent bg-background/40 backdrop-blur-sm",
       )}
     >
-      <div className="mx-auto flex h-16 max-w-[1400px] items-center justify-between gap-6 px-5 sm:h-20 sm:px-8 lg:px-12">
-        <Link href="/" aria-label="Oromiel Makeup - Inicio">
+      <div className="mx-auto flex h-16 max-w-[1500px] items-center justify-between gap-6 px-5 sm:h-20 sm:px-8 lg:px-14">
+        <Link href="/" aria-label="Oromiel Makeup - Inicio" className="shrink-0">
           <BrandLogo size={36} />
         </Link>
 
-        <nav className="hidden items-center gap-10 md:flex" aria-label="Navegación principal">
+        <nav className="hidden items-center gap-11 md:flex" aria-label="Navegación principal">
           {links.map((link) => {
             const active = link.href === "/" ? pathname === "/" : pathname.startsWith(link.href)
             return (
@@ -53,7 +53,7 @@ export function SiteNavbar() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "relative py-1 text-[0.8rem] font-light tracking-[0.14em] uppercase transition-colors duration-300",
+                  "link-underline relative py-1 text-[0.72rem] font-light tracking-[0.22em] uppercase transition-colors duration-300",
                   active
                     ? "text-foreground"
                     : "text-muted-foreground hover:text-foreground",
@@ -72,28 +72,33 @@ export function SiteNavbar() {
           })}
         </nav>
 
-        <div className="flex items-center gap-1">
-          <Button asChild variant="ghost" size="icon" className="hidden text-muted-foreground hover:text-foreground md:inline-flex">
-            <Link href="/catalogo" aria-label="Buscar productos">
-              <Search className="size-[18px]" strokeWidth={1.5} />
-            </Link>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden text-muted-foreground hover:bg-transparent hover:text-foreground md:inline-flex"
+            render={<Link href="/catalogo" aria-label="Buscar productos" />}
+          >
+            <Search className="size-[18px]" strokeWidth={1.25} />
           </Button>
           <Button
-            asChild
-            className="hidden rounded-full bg-foreground px-6 py-2 text-[0.75rem] font-light tracking-[0.16em] uppercase text-background hover:bg-foreground/90 md:inline-flex"
+            className="group hidden rounded-none border border-foreground bg-transparent px-7 py-2 text-[0.7rem] font-light tracking-[0.22em] uppercase text-foreground transition-colors duration-500 hover:bg-foreground hover:text-background md:inline-flex"
+            render={<Link href="/catalogo" />}
           >
-            <Link href="/catalogo">Tienda</Link>
+            Tienda
           </Button>
 
           <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-foreground md:hidden" aria-label="Abrir menú">
-                <Menu className="size-5" strokeWidth={1.5} />
-              </Button>
+            <SheetTrigger
+              render={
+                <Button variant="ghost" size="icon" className="text-foreground md:hidden" aria-label="Abrir menú" />
+              }
+            >
+              <Menu className="size-5" strokeWidth={1.5} />
             </SheetTrigger>
-            <SheetContent side="right" className="w-80 border-l-border/40 bg-background/95 backdrop-blur-xl">
+            <SheetContent side="right" className="w-[85%] max-w-sm border-l-border/40 bg-background/97 px-7 backdrop-blur-2xl">
               <SheetTitle className="sr-only">Menú</SheetTitle>
-              <div className="mb-12 mt-2">
+              <div className="mb-14 mt-2">
                 <BrandLogo size={32} />
               </div>
               <nav className="flex flex-col gap-0" aria-label="Navegación móvil">
@@ -110,11 +115,14 @@ export function SiteNavbar() {
                         href={link.href}
                         onClick={() => setOpen(false)}
                         className={cn(
-                          "block border-b border-border/30 py-4 text-[0.8rem] font-light tracking-[0.18em] uppercase transition-colors",
+                          "flex items-baseline gap-4 border-b border-border/30 py-5 transition-colors",
                           active ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                         )}
                       >
-                        {link.label}
+                        <span className="text-[0.6rem] font-light tracking-[0.2em] text-gold tabular-nums">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span className="font-serif text-2xl font-light">{link.label}</span>
                       </Link>
                     </motion.div>
                   )
@@ -122,7 +130,7 @@ export function SiteNavbar() {
               </nav>
               <Button
                 asChild
-                className="mt-8 w-full rounded-full bg-foreground py-2.5 text-[0.75rem] font-light tracking-[0.16em] uppercase text-background hover:bg-foreground/90"
+                className="mt-10 w-full rounded-none border border-foreground bg-foreground py-3 text-[0.7rem] font-light tracking-[0.22em] uppercase text-background hover:bg-transparent hover:text-foreground"
                 onClick={() => setOpen(false)}
               >
                 <Link href="/catalogo">Ver catálogo</Link>

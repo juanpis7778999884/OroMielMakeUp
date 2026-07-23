@@ -10,6 +10,9 @@ import type { Product } from "@/lib/types"
 
 const PLACEHOLDER = "/assorted-cosmetics.png"
 
+const BADGE_BASE =
+  "rounded-none px-2.5 py-1 text-[0.58rem] font-light uppercase tracking-[0.16em]"
+
 function statusBadge(product: Product) {
   if (product.status === "agotado" || product.stock <= 0) {
     return { label: "Agotado", className: "bg-muted text-muted-foreground" }
@@ -18,7 +21,7 @@ function statusBadge(product: Product) {
     return { label: "Oferta", className: "bg-foreground text-background" }
   }
   if (product.status === "nuevo") {
-    return { label: "Nuevo", className: "bg-background text-foreground border border-border/60" }
+    return { label: "Nuevo", className: "bg-background text-foreground border border-border" }
   }
   return null
 }
@@ -31,47 +34,49 @@ export function ProductCard({ product, whatsapp }: { product: Product; whatsapp?
   const waUrl = buildProductWhatsAppUrl(whatsapp, product.name, product.price)
 
   return (
-    <div className="group flex flex-col overflow-hidden bg-background transition-all duration-500">
-      <Link href={`/producto/${product.slug}`} className="relative block aspect-square overflow-hidden bg-secondary/50">
+    <div className="group flex flex-col">
+      <Link href={`/producto/${product.slug}`} className="relative block aspect-[4/5] overflow-hidden bg-secondary/50">
         <Image
           src={image || "/placeholder.svg"}
           alt={product.name}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
-          className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+          className="object-cover transition-transform duration-[1.1s] ease-out group-hover:scale-[1.05]"
         />
-        {/* Subtle hover overlay */}
-        <div className="absolute inset-0 bg-foreground/0 transition-colors duration-500 group-hover:bg-foreground/[0.02]" />
+        {/* Subtle hover wash */}
+        <div className="absolute inset-0 bg-foreground/0 transition-colors duration-500 group-hover:bg-foreground/[0.03]" />
+        {/* Thin frame reveal on hover */}
+        <div className="pointer-events-none absolute inset-3 border border-background/0 transition-colors duration-500 group-hover:border-background/30" />
 
         <div className="absolute left-3 top-3 z-10 flex flex-col gap-1.5">
-          {badge && <Badge className={badge.className}>{badge.label}</Badge>}
+          {badge && <Badge className={`${BADGE_BASE} ${badge.className}`}>{badge.label}</Badge>}
           {discount > 0 && !soldOut && (
-            <Badge className="bg-foreground text-background">{`-${discount}%`}</Badge>
+            <Badge className={`${BADGE_BASE} bg-gold text-gold-foreground`}>{`-${discount}%`}</Badge>
           )}
         </div>
       </Link>
 
-      <div className="flex flex-1 flex-col gap-1.5 px-1 pt-4 pb-1">
+      <div className="flex flex-1 flex-col gap-1.5 pt-4">
         {product.category?.name && (
-          <span className="text-[0.65rem] font-light tracking-[0.18em] uppercase text-muted-foreground/70">
+          <span className="text-[0.6rem] font-light tracking-[0.2em] uppercase text-muted-foreground/70">
             {product.category.name}
           </span>
         )}
         <Link
           href={`/producto/${product.slug}`}
-          className="font-serif text-[1.05rem] font-normal leading-snug text-foreground transition-colors duration-300 hover:text-muted-foreground line-clamp-2"
+          className="font-serif text-[1.15rem] font-light leading-snug text-foreground transition-colors duration-300 hover:text-muted-foreground line-clamp-2"
         >
           {product.name}
         </Link>
 
         <div className="mt-auto flex items-baseline gap-2.5 pt-3">
-          <span className="text-[0.95rem] font-medium tracking-tight text-foreground">{formatPrice(product.price)}</span>
+          <span className="text-[0.9rem] font-normal tracking-tight text-foreground tabular-nums">{formatPrice(product.price)}</span>
           {product.compare_at_price && product.compare_at_price > product.price && (
-            <span className="text-[0.8rem] font-light text-muted-foreground/60 line-through">{formatPrice(product.compare_at_price)}</span>
+            <span className="text-[0.78rem] font-light text-muted-foreground/60 line-through tabular-nums">{formatPrice(product.compare_at_price)}</span>
           )}
         </div>
 
-        <div className="pt-2">
+        <div className="pt-3">
           <WhatsAppButton
             url={waUrl}
             productId={product.id}

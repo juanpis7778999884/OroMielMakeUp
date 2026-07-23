@@ -24,7 +24,7 @@ export function WhatsAppButton({ url, productId, productName, price, whatsapp, s
 
   if (soldOut) {
     return (
-      <Button disabled className="mt-1 w-full gap-2 rounded-full border border-border/40 bg-background py-2 text-[0.75rem] font-light tracking-[0.1em] uppercase text-muted-foreground/60">
+      <Button disabled className="mt-1 w-full gap-2 rounded-none border border-border/50 bg-transparent py-2 text-[0.66rem] font-light tracking-[0.18em] uppercase text-muted-foreground/60">
         <span>Agotado</span>
       </Button>
     )
@@ -32,7 +32,7 @@ export function WhatsAppButton({ url, productId, productName, price, whatsapp, s
 
   return (
     <Button
-      className="mt-1 w-full gap-2 rounded-full border border-foreground/20 bg-background py-2 text-[0.75rem] font-light tracking-[0.1em] uppercase text-foreground transition-all duration-300 hover:bg-foreground hover:text-background"
+      className="mt-1 w-full gap-2 rounded-none border border-foreground/25 bg-transparent py-2 text-[0.66rem] font-light tracking-[0.18em] uppercase text-foreground transition-colors duration-500 hover:bg-foreground hover:text-background"
       render={
         <a href={url} target="_blank" rel="noopener noreferrer" onClick={handleClick} />
       }

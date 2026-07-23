@@ -118,27 +118,30 @@ export function CatalogBrowser({
     activeCategory !== "todos" || activeSearch || activeSort !== "recientes"
 
   return (
-    <div className="mx-auto max-w-[1400px] px-5 py-12 sm:px-8 sm:py-16">
-      {/* Header */}
-      <div className="mb-12 text-center">
-        <motion.span
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5 }}
-          className="text-[0.7rem] font-light tracking-[0.3em] uppercase text-muted-foreground"
-        >
-          Catálogo
-        </motion.span>
-        <motion.h1
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.05 }}
-          className="mt-3 font-serif text-3xl font-light text-foreground md:text-4xl"
-        >
-          Nuestros Productos
-        </motion.h1>
-        <p className="mt-3 text-[0.82rem] font-light text-muted-foreground">
-          {total} {total === 1 ? "producto" : "productos"} disponibles
+    <div className="mx-auto max-w-[1500px] px-5 py-12 sm:px-8 sm:py-16 lg:px-14">
+      {/* Editorial header */}
+      <div className="mb-10 flex flex-col justify-between gap-6 border-b border-border/50 pb-8 md:flex-row md:items-end">
+        <div>
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mb-4 flex items-center gap-3"
+          >
+            <span className="h-px w-8 bg-gold/60" />
+            <span className="eyebrow">Catálogo</span>
+          </motion.div>
+          <motion.h1
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.05 }}
+            className="font-serif text-4xl font-light leading-[1.05] tracking-[-0.01em] text-foreground md:text-5xl"
+          >
+            Nuestros Productos
+          </motion.h1>
+        </div>
+        <p className="text-[0.72rem] font-light tracking-[0.16em] uppercase text-muted-foreground">
+          {total} {total === 1 ? "producto" : "productos"}
         </p>
       </div>
 
@@ -153,7 +156,7 @@ export function CatalogBrowser({
             id="catalog-search"
             value={searchInput}
             onChange={(e) => handleSearchInput(e.target.value)}
-            className="flex h-11 w-full rounded-full border border-border/50 bg-background pl-10 pr-9 text-[0.82rem] font-light outline-none transition-all duration-300 focus:border-foreground/30 focus:shadow-[0_0_0_3px_oklch(0.55_0.07_65/0.06)]"
+            className="flex h-12 w-full rounded-none border border-border/60 bg-background pl-10 pr-9 text-[0.82rem] font-light outline-none transition-all duration-300 focus:border-foreground/40"
             placeholder="Buscar productos..."
           />
           {searchInput && (
@@ -171,7 +174,7 @@ export function CatalogBrowser({
           <select
             value={activeSort}
             onChange={(e) => handleSortChange(e.target.value)}
-            className="h-11 rounded-full border border-border/50 bg-background px-4 text-[0.82rem] font-light outline-none transition-all duration-300 focus:border-foreground/30"
+            className="h-12 rounded-none border border-border/60 bg-background px-4 text-[0.82rem] font-light outline-none transition-all duration-300 focus:border-foreground/40"
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -188,10 +191,10 @@ export function CatalogBrowser({
           <button
             onClick={() => handleCategoryClick("todos")}
             className={cn(
-              "rounded-full border px-5 py-2 text-[0.75rem] font-light tracking-[0.1em] uppercase transition-all duration-300",
+              "rounded-none border px-6 py-2.5 text-[0.68rem] font-light tracking-[0.18em] uppercase transition-colors duration-500",
               activeCategory === "todos"
                 ? "border-foreground bg-foreground text-background"
-                : "border-border/50 bg-transparent text-muted-foreground hover:border-foreground/40 hover:text-foreground",
+                : "border-border/60 bg-transparent text-muted-foreground hover:border-foreground hover:text-foreground",
             )}
           >
             Todos
@@ -201,10 +204,10 @@ export function CatalogBrowser({
               key={cat.id}
               onClick={() => handleCategoryClick(cat.slug)}
               className={cn(
-                "rounded-full border px-5 py-2 text-[0.75rem] font-light tracking-[0.1em] uppercase transition-all duration-300",
+                "rounded-none border px-6 py-2.5 text-[0.68rem] font-light tracking-[0.18em] uppercase transition-colors duration-500",
                 activeCategory === cat.slug
                   ? "border-foreground bg-foreground text-background"
-                  : "border-border/50 bg-transparent text-muted-foreground hover:border-foreground/40 hover:text-foreground",
+                  : "border-border/60 bg-transparent text-muted-foreground hover:border-foreground hover:text-foreground",
               )}
             >
               {cat.name}
@@ -224,7 +227,7 @@ export function CatalogBrowser({
           >
             <span>Filtros activos:</span>
             {activeCategory !== "todos" && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-border/50 bg-background px-3 py-1 text-[0.7rem] font-light text-foreground">
+              <span className="inline-flex items-center gap-1 rounded-none border border-border/60 bg-background px-3 py-1 text-[0.7rem] font-light text-foreground">
                 {categories.find((c) => c.slug === activeCategory)?.name ?? activeCategory}
                 <button onClick={() => handleCategoryClick("todos")} className="ml-0.5 text-muted-foreground/60 hover:text-foreground">
                   <X className="size-3" />
@@ -232,7 +235,7 @@ export function CatalogBrowser({
               </span>
             )}
             {activeSearch && (
-              <span className="inline-flex items-center gap-1 rounded-full border border-border/50 bg-background px-3 py-1 text-[0.7rem] font-light text-foreground">
+              <span className="inline-flex items-center gap-1 rounded-none border border-border/60 bg-background px-3 py-1 text-[0.7rem] font-light text-foreground">
                 &ldquo;{activeSearch}&rdquo;
                 <button onClick={clearSearch} className="ml-0.5 text-muted-foreground/60 hover:text-foreground">
                   <X className="size-3" />
@@ -254,13 +257,13 @@ export function CatalogBrowser({
 
       {/* Product grid */}
       {products.length > 0 ? (
-        <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-4 md:grid-cols-3 lg:grid-cols-4">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-10 sm:gap-6 md:grid-cols-3 lg:grid-cols-4">
           {products.map((product) => (
             <ProductCard key={product.id} product={product} whatsapp={whatsapp} />
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center border border-border/30 bg-background py-24">
+        <div className="flex flex-col items-center justify-center border border-border/50 bg-secondary/20 py-24">
           <Package className="size-10 text-muted-foreground/30" strokeWidth={1} />
           <h3 className="mt-5 text-[0.9rem] font-light text-foreground">
             No se encontraron productos
@@ -292,7 +295,7 @@ export function CatalogBrowser({
             size="lg"
             onClick={handleLoadMore}
             disabled={loading}
-            className="min-w-[220px] rounded-full border-border/50 px-8 py-2.5 text-[0.78rem] font-light tracking-[0.12em] uppercase hover:bg-foreground/5"
+            className="min-w-[240px] rounded-none border-foreground/60 px-8 py-3 text-[0.7rem] font-light tracking-[0.2em] uppercase transition-colors duration-500 hover:bg-foreground hover:text-background"
           >
             {loading ? (
               <>

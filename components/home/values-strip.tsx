@@ -12,8 +12,8 @@ const values = [
 
 export function ValuesStrip() {
   return (
-    <section className="border-y border-border/30 bg-background">
-      <div className="mx-auto grid max-w-[1400px] grid-cols-2 gap-x-8 gap-y-10 px-5 py-14 sm:px-8 lg:grid-cols-4 lg:py-16">
+    <section className="border-y border-border/50 bg-secondary/40">
+      <div className="mx-auto grid max-w-[1500px] grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
         {values.map((v, i) => (
           <motion.div
             key={v.title}
@@ -21,14 +21,17 @@ export function ValuesStrip() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.5, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
-            className="flex flex-col items-center gap-4 text-center"
+            className="group flex flex-col gap-5 border-b border-border/50 px-6 py-12 transition-colors duration-500 last:border-b-0 hover:bg-background sm:px-8 sm:py-14 lg:border-b-0 lg:border-l lg:first:border-l-0"
           >
-            <span className="flex size-10 items-center justify-center text-muted-foreground/50">
-              <v.icon className="size-5" strokeWidth={1.2} />
-            </span>
+            <div className="flex items-center justify-between">
+              <span className="text-[0.62rem] font-light tracking-[0.24em] text-gold tabular-nums">
+                {String(i + 1).padStart(2, "0")}
+              </span>
+              <v.icon className="size-5 text-muted-foreground/50 transition-colors duration-500 group-hover:text-foreground" strokeWidth={1.1} />
+            </div>
             <div>
-              <h3 className="font-serif text-[1.05rem] font-normal text-foreground">{v.title}</h3>
-              <p className="mt-1.5 text-[0.78rem] font-light leading-[1.7] text-muted-foreground">{v.desc}</p>
+              <h3 className="font-serif text-[1.3rem] font-light text-foreground">{v.title}</h3>
+              <p className="mt-2 text-[0.8rem] font-light leading-[1.75] text-muted-foreground">{v.desc}</p>
             </div>
           </motion.div>
         ))}

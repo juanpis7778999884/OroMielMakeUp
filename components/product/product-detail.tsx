@@ -83,9 +83,9 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-[1400px] px-5 py-8 sm:px-8 sm:py-12">
+    <div className="mx-auto max-w-[1500px] px-5 py-8 sm:px-8 sm:py-12 lg:px-14">
       {/* Breadcrumb */}
-      <nav className="mb-8 flex items-center gap-1.5 text-[0.75rem] font-light tracking-wide text-muted-foreground/60">
+      <nav className="mb-10 flex items-center gap-1.5 text-[0.7rem] font-light tracking-[0.12em] uppercase text-muted-foreground/60">
         <Link href="/" className="transition-colors duration-300 hover:text-foreground">
           Inicio
         </Link>
@@ -128,9 +128,9 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
             />
 
             <div className="absolute left-4 top-4 z-10 flex flex-col gap-1.5">
-              <Badge className={status.className}>{status.label}</Badge>
+              <Badge className={`rounded-none px-2.5 py-1 text-[0.58rem] uppercase tracking-[0.16em] ${status.className}`}>{status.label}</Badge>
               {discount > 0 && !soldOut && (
-                <Badge className="bg-foreground text-background">{`-${discount}% OFF`}</Badge>
+                <Badge className="rounded-none bg-gold px-2.5 py-1 text-[0.58rem] uppercase tracking-[0.16em] text-gold-foreground">{`-${discount}% OFF`}</Badge>
               )}
             </div>
 
@@ -196,28 +196,28 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
           {product.category && (
             <Link
               href={`/catalogo?categoria=${product.category.slug}`}
-              className="inline-flex w-fit items-center gap-1.5 rounded-full border border-border/40 bg-background px-3 py-1 text-[0.68rem] font-light tracking-[0.12em] uppercase text-muted-foreground transition-colors duration-300 hover:border-foreground/30 hover:text-foreground"
+              className="inline-flex w-fit items-center gap-1.5 rounded-none border border-border/60 bg-background px-3 py-1.5 text-[0.62rem] font-light tracking-[0.18em] uppercase text-muted-foreground transition-colors duration-500 hover:border-foreground hover:text-foreground"
             >
               <Tag className="size-3" strokeWidth={1.5} />
               {product.category.name}
             </Link>
           )}
 
-          <h1 className="font-serif text-[2rem] font-light leading-[1.15] text-foreground md:text-[2.5rem]">
+          <h1 className="font-serif text-[2.25rem] font-light leading-[1.08] tracking-[-0.01em] text-foreground md:text-[3rem]">
             {product.name}
           </h1>
 
           <div className="flex items-baseline gap-3">
-            <span className="text-[1.75rem] font-light tracking-tight text-foreground">
+            <span className="text-[1.75rem] font-light tracking-tight text-foreground tabular-nums">
               {formatPrice(product.price)}
             </span>
             {product.compare_at_price && product.compare_at_price > product.price && (
-              <span className="text-[1rem] font-light text-muted-foreground/50 line-through">
+              <span className="text-[1rem] font-light text-muted-foreground/50 line-through tabular-nums">
                 {formatPrice(product.compare_at_price)}
               </span>
             )}
             {discount > 0 && !soldOut && (
-              <span className="rounded-full border border-foreground/10 bg-foreground/5 px-2.5 py-0.5 text-[0.72rem] font-light tracking-wider text-foreground">
+              <span className="rounded-none border border-gold/40 bg-gold/10 px-2.5 py-0.5 text-[0.68rem] font-light tracking-[0.12em] text-foreground">
                 -{discount}%
               </span>
             )}
@@ -269,7 +269,7 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
             {!soldOut ? (
               <Button
                 size="lg"
-                className="flex-1 gap-2 rounded-full bg-foreground px-8 py-2.5 text-[0.78rem] font-light tracking-[0.14em] uppercase text-background hover:bg-foreground/90"
+                className="flex-1 gap-2 rounded-none bg-foreground px-8 py-3 text-[0.7rem] font-light tracking-[0.2em] uppercase text-background transition-colors duration-500 hover:bg-foreground/85"
                 render={
                   <a href={waUrl} target="_blank" rel="noopener noreferrer" />
                 }
@@ -278,7 +278,7 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
                 Consultar por WhatsApp
               </Button>
             ) : (
-              <Button size="lg" disabled className="flex-1 gap-2 rounded-full px-8 py-2.5 text-[0.78rem] font-light tracking-[0.14em] uppercase">
+              <Button size="lg" disabled className="flex-1 gap-2 rounded-none px-8 py-3 text-[0.7rem] font-light tracking-[0.2em] uppercase">
                 <Package className="size-4" strokeWidth={1.5} />
                 Producto agotado
               </Button>
@@ -287,7 +287,7 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
               size="lg"
               variant="outline"
               onClick={handleShare}
-              className="gap-2 rounded-full border-border/50 px-6 py-2.5 text-[0.78rem] font-light tracking-[0.12em] uppercase hover:bg-foreground/5"
+              className="gap-2 rounded-none border-foreground/50 px-6 py-3 text-[0.7rem] font-light tracking-[0.18em] uppercase transition-colors duration-500 hover:bg-foreground hover:text-background"
             >
               <Share2 className="size-3.5" strokeWidth={1.5} />
               Compartir
@@ -297,14 +297,14 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
           {/* Badges */}
           <div className="flex flex-wrap gap-2 pt-1">
             {product.is_bestseller && (
-              <Badge variant="secondary" className="gap-1 border border-border/40 bg-background font-light">
-                <Star className="size-3" strokeWidth={1.5} />
+              <Badge variant="secondary" className="gap-1 rounded-none border border-border/60 bg-background px-3 py-1 text-[0.6rem] font-light uppercase tracking-[0.14em]">
+                <Star className="size-3 text-gold" strokeWidth={1.5} />
                 Más vendido
               </Badge>
             )}
             {product.is_featured && (
-              <Badge variant="secondary" className="gap-1 border border-border/40 bg-background font-light">
-                <Star className="size-3" strokeWidth={1.5} />
+              <Badge variant="secondary" className="gap-1 rounded-none border border-border/60 bg-background px-3 py-1 text-[0.6rem] font-light uppercase tracking-[0.14em]">
+                <Star className="size-3 text-gold" strokeWidth={1.5} />
                 Destacado
               </Badge>
             )}
