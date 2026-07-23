@@ -73,23 +73,28 @@ export function SiteNavbar() {
         </nav>
 
         <div className="flex items-center gap-2">
-          <Button asChild variant="ghost" size="icon" className="hidden text-muted-foreground hover:bg-transparent hover:text-foreground md:inline-flex">
-            <Link href="/catalogo" aria-label="Buscar productos">
-              <Search className="size-[18px]" strokeWidth={1.25} />
-            </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden text-muted-foreground hover:bg-transparent hover:text-foreground md:inline-flex"
+            render={<Link href="/catalogo" aria-label="Buscar productos" />}
+          >
+            <Search className="size-[18px]" strokeWidth={1.25} />
           </Button>
           <Button
-            asChild
             className="group hidden rounded-none border border-foreground bg-transparent px-7 py-2 text-[0.7rem] font-light tracking-[0.22em] uppercase text-foreground transition-colors duration-500 hover:bg-foreground hover:text-background md:inline-flex"
+            render={<Link href="/catalogo" />}
           >
-            <Link href="/catalogo">Tienda</Link>
+            Tienda
           </Button>
 
           <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="text-foreground md:hidden" aria-label="Abrir menú">
-                <Menu className="size-5" strokeWidth={1.5} />
-              </Button>
+            <SheetTrigger
+              render={
+                <Button variant="ghost" size="icon" className="text-foreground md:hidden" aria-label="Abrir menú" />
+              }
+            >
+              <Menu className="size-5" strokeWidth={1.5} />
             </SheetTrigger>
             <SheetContent side="right" className="w-[85%] max-w-sm border-l-border/40 bg-background/97 px-7 backdrop-blur-2xl">
               <SheetTitle className="sr-only">Menú</SheetTitle>
