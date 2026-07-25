@@ -42,6 +42,9 @@
 
   --color-gold: var(--gold);
   --color-gold-foreground: var(--gold-foreground);
+  --color-champagne: var(--champagne);
+  --color-espresso: var(--espresso);
+  --color-espresso-foreground: var(--espresso-foreground);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -55,36 +58,42 @@
 :root {
   color-scheme: light;
 
-  /* Editorial warm-paper / espresso-ink / bronze beauty palette */
-  --background: oklch(0.985 0.005 83);
-  --foreground: oklch(0.205 0.018 52);
-  --card: oklch(0.995 0.003 83);
-  --card-foreground: oklch(0.205 0.018 52);
-  --popover: oklch(0.995 0.003 83);
-  --popover-foreground: oklch(0.205 0.018 52);
-  --primary: oklch(0.505 0.065 62);
-  --primary-foreground: oklch(0.985 0.004 82);
-  --secondary: oklch(0.955 0.014 82);
-  --secondary-foreground: oklch(0.28 0.022 55);
-  --muted: oklch(0.945 0.012 82);
-  --muted-foreground: oklch(0.505 0.024 60);
-  --accent: oklch(0.905 0.03 78);
-  --accent-foreground: oklch(0.28 0.03 55);
+  /* Atelier de Belleza — warm porcelain / espresso ink / bronze-champagne */
+  --background: oklch(0.987 0.006 84);
+  --foreground: oklch(0.19 0.016 50);
+  --card: oklch(0.998 0.003 84);
+  --card-foreground: oklch(0.19 0.016 50);
+  --popover: oklch(0.998 0.003 84);
+  --popover-foreground: oklch(0.19 0.016 50);
+  --primary: oklch(0.46 0.058 60);
+  --primary-foreground: oklch(0.987 0.004 84);
+  --secondary: oklch(0.955 0.016 82);
+  --secondary-foreground: oklch(0.26 0.022 55);
+  --muted: oklch(0.945 0.014 82);
+  --muted-foreground: oklch(0.475 0.024 58);
+  --accent: oklch(0.9 0.034 78);
+  --accent-foreground: oklch(0.26 0.03 55);
   --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.895 0.014 80);
-  --input: oklch(0.895 0.014 80);
-  --ring: oklch(0.505 0.065 62);
+  --border: oklch(0.888 0.014 80);
+  --input: oklch(0.888 0.014 80);
+  --ring: oklch(0.63 0.108 72);
 
-  --gold: oklch(0.66 0.105 74);
-  --gold-foreground: oklch(0.985 0.004 82);
+  /* Signature bronze / champagne accents */
+  --gold: oklch(0.63 0.112 72);
+  --gold-foreground: oklch(0.987 0.004 84);
+  --champagne: oklch(0.83 0.066 80);
 
-  --chart-1: oklch(0.66 0.105 74);
-  --chart-2: oklch(0.62 0.1 60);
-  --chart-3: oklch(0.5 0.06 55);
+  /* Deep espresso for dramatic dark sections */
+  --espresso: oklch(0.215 0.024 52);
+  --espresso-foreground: oklch(0.96 0.012 82);
+
+  --chart-1: oklch(0.63 0.112 72);
+  --chart-2: oklch(0.6 0.1 60);
+  --chart-3: oklch(0.48 0.06 55);
   --chart-4: oklch(0.82 0.08 82);
-  --chart-5: oklch(0.4 0.04 50);
+  --chart-5: oklch(0.38 0.04 50);
   --radius: 0.25rem;
-  --sidebar: oklch(0.980 0.006 80);
+  --sidebar: oklch(0.98 0.006 80);
   --sidebar-foreground: oklch(0.18 0.02 50);
   --sidebar-primary: oklch(0.55 0.07 65);
   --sidebar-primary-foreground: oklch(0.985 0.004 82);
@@ -103,6 +112,10 @@
     font-feature-settings: "liga" 1, "calt" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--gold) 24%, transparent);
+    color: var(--foreground);
   }
 }
 
@@ -194,4 +207,73 @@
 
 @utility animate-slow-drift {
   animation: slow-drift 18s ease-in-out infinite alternate;
+}
+
+/* ============================================================
+   Premium additions — grain, marquee, depth, decorative type
+   ============================================================ */
+
+/* Fine film-grain texture overlay for tactile, editorial depth */
+@utility grain {
+  position: relative;
+}
+.grain::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.045'/%3E%3C/svg%3E");
+}
+
+/* Infinite marquee ribbon */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@utility animate-marquee {
+  animation: marquee 32s linear infinite;
+}
+
+@utility animate-marquee-slow {
+  animation: marquee 52s linear infinite;
+}
+
+/* Warm, soft luxury elevation */
+@utility shadow-luxe {
+  box-shadow:
+    0 1px 2px oklch(0.4 0.03 55 / 0.04),
+    0 12px 30px -12px oklch(0.35 0.03 55 / 0.16),
+    0 30px 60px -30px oklch(0.3 0.03 55 / 0.14);
+}
+
+@utility shadow-luxe-lg {
+  box-shadow:
+    0 2px 4px oklch(0.4 0.03 55 / 0.05),
+    0 24px 50px -18px oklch(0.32 0.03 55 / 0.24),
+    0 50px 90px -40px oklch(0.28 0.03 55 / 0.2);
+}
+
+/* Oversized decorative outlined numeral / letter for editorial layering */
+@utility text-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in oklab, var(--foreground) 22%, transparent);
+}
+
+/* Vertical writing for editorial side labels */
+@utility vertical-rl {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+}
+
+/* Reduced motion: respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee,
+  .animate-marquee-slow,
+  .animate-slow-drift {
+    animation: none !important;
+  }
 }

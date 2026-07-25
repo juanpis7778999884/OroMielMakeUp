@@ -24,7 +24,7 @@ export function FeaturedSection({
   if (!products.length) return null
   return (
     <section className="bg-secondary/30">
-      <div className="mx-auto max-w-[1500px] px-5 py-20 sm:px-8 sm:py-28 lg:px-14">
+      <div className="mx-auto max-w-[1600px] px-5 py-20 sm:px-8 sm:py-28 lg:px-14">
         {/* Editorial header */}
         <div className="mb-12 flex flex-col justify-between gap-6 border-b border-border/50 pb-8 sm:flex-row sm:items-end">
           <div>
@@ -36,6 +36,7 @@ export function FeaturedSection({
                 transition={{ duration: 0.5 }}
                 className="mb-4 flex items-center gap-3"
               >
+                <span className="text-[0.62rem] font-light tracking-[0.24em] text-gold tabular-nums">✦</span>
                 <span className="h-px w-8 bg-gold/60" />
                 <span className="eyebrow">{subtitle}</span>
               </motion.div>
@@ -45,16 +46,16 @@ export function FeaturedSection({
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.05 }}
-              className="font-serif text-4xl font-light leading-[1.05] tracking-[-0.01em] text-foreground md:text-5xl"
+              className="font-serif text-[2.5rem] font-light leading-[1.02] tracking-[-0.015em] text-foreground md:text-6xl"
             >
               {title}
             </motion.h2>
           </div>
           <Link
             href={viewAllHref}
-            className="group inline-flex items-center gap-2 pb-1 text-[0.72rem] font-light tracking-[0.18em] uppercase text-foreground"
+            className="group inline-flex items-center gap-2 border-b border-foreground/30 pb-1 text-[0.72rem] font-light tracking-[0.2em] uppercase text-foreground transition-colors duration-300 hover:border-gold hover:text-gold"
           >
-            <span className="link-underline">Ver todo</span>
+            <span>Ver todo</span>
             <ArrowRight className="size-3.5 transition-transform duration-500 group-hover:translate-x-1" strokeWidth={1.5} />
           </Link>
         </div>
