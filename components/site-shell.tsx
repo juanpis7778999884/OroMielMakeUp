@@ -20,7 +20,7 @@ export function SiteShell({
         Saltar al contenido
       </a>
       <SiteNavbar />
-      <main id="main-content" className="flex-1 pt-16 sm:pt-20">{children}</main>
+      <main id="main-content" className="flex-1">{children}</main>
       <SiteFooter settings={settings} />
       <WhatsAppFloat settings={settings} />
     </div>

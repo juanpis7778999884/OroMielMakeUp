@@ -3,6 +3,7 @@ import { SiteShell } from "@/components/site-shell"
 import { HeroSection } from "@/components/home/hero-section"
 import { ValuesStrip } from "@/components/home/values-strip"
 import { CategoriesSection } from "@/components/home/categories-section"
+import { PhilosophySection } from "@/components/home/philosophy-section"
 import { FeaturedSection } from "@/components/home/featured-section"
 import { TestimonialsSection } from "@/components/home/testimonials-section"
 import { CtaSection } from "@/components/home/cta-section"
@@ -40,6 +41,7 @@ export default async function HomePage() {
         <HeroSection title={settings?.hero_title} subtitle={settings?.hero_subtitle} />
         <ValuesStrip />
         <CategoriesSection categories={categories} />
+        <PhilosophySection />
         <Suspense fallback={<ProductGridSkeleton count={4} />}>
           <FeaturedSection
             title="Destacados"
