@@ -63,17 +63,17 @@ export function HeroSection({ title, subtitle }: { title?: string | null; subtit
             className="flex flex-col gap-3 pt-1 sm:flex-row"
           >
             <Button
-              asChild
+              render={<Link href="/catalogo" />}
               className="rounded-none bg-foreground px-9 py-2.5 text-[0.7rem] font-light tracking-[0.22em] uppercase text-background transition-colors duration-500 hover:bg-foreground/85"
             >
-              <Link href="/catalogo">Descubrir</Link>
+              Descubrir
             </Button>
             <Button
-              asChild
+              render={<Link href="/promociones" />}
               variant="ghost"
               className="rounded-none border border-border px-9 py-2.5 text-[0.7rem] font-light tracking-[0.22em] uppercase text-foreground transition-colors duration-500 hover:border-foreground hover:bg-transparent"
             >
-              <Link href="/promociones">Promociones</Link>
+              Promociones
             </Button>
           </motion.div>
         </div>
