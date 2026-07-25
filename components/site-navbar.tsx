@@ -129,11 +129,11 @@ export function SiteNavbar() {
                 })}
               </nav>
               <Button
-                asChild
+                render={<Link href="/catalogo" />}
                 className="mt-10 w-full rounded-none border border-foreground bg-foreground py-3 text-[0.7rem] font-light tracking-[0.22em] uppercase text-background hover:bg-transparent hover:text-foreground"
                 onClick={() => setOpen(false)}
               >
-                <Link href="/catalogo">Ver catálogo</Link>
+                Ver catálogo
               </Button>
             </SheetContent>
           </Sheet>
