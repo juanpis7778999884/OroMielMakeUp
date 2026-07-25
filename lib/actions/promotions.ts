@@ -43,6 +43,7 @@ export async function createPromotion(
   if (error) return { ok: false, error: error.message }
 
   revalidatePath("/admin/promociones")
+  revalidatePath("/promociones")
   revalidatePath("/")
   redirect("/admin/promociones")
 }
@@ -88,6 +89,7 @@ export async function updatePromotion(
   if (error) return { ok: false, error: error.message }
 
   revalidatePath("/admin/promociones")
+  revalidatePath("/promociones")
   revalidatePath("/")
   return { ok: true }
 }
@@ -103,11 +105,34 @@ export async function deletePromotion(
 
   const supabase = await createClient()
 
+  // Fetch the promotion to get the banner URL before deleting
+  const { data: promo } = await supabase
+    .from("promotions")
+    .select("banner_url")
+    .eq("id", id)
+    .single()
+
   const { error } = await supabase.from("promotions").delete().eq("id", id)
 
   if (error) return { ok: false, error: error.message }
 
+  // Delete the banner from storage if it exists
+  if (promo?.banner_url) {
+    try {
+      const u = new URL(promo.banner_url)
+      const marker = "/object/public/promotion-images/"
+      const idx = u.pathname.indexOf(marker)
+      if (idx !== -1) {
+        const path = decodeURIComponent(u.pathname.slice(idx + marker.length))
+        await supabase.storage.from("promotion-images").remove([path])
+      }
+    } catch {
+      // ignore storage cleanup errors
+    }
+  }
+
   revalidatePath("/admin/promociones")
+  revalidatePath("/promociones")
   revalidatePath("/")
   redirect("/admin/promociones")
 }

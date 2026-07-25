@@ -1,14 +1,16 @@
 "use client"
 
-import { useActionState, useEffect, useState } from "react"
-import Image from "next/image"
+import { useActionState, useEffect, useRef, useState } from "react"
 import { useRouter } from "next/navigation"
+import { Loader2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import type { Promotion } from "@/lib/types"
 import type { ActionResult } from "@/lib/actions/promotions"
 import { createPromotion, updatePromotion, deletePromotion } from "@/lib/actions/promotions"
+import { ImageUploader, type ManagedImage } from "@/components/admin/image-uploader"
+import { uploadPromotionBanner, deletePromotionBanner } from "@/lib/supabase/storage"
 
 type PromotionFormProps = {
   mode: "create" | "edit"
@@ -31,19 +33,60 @@ export function PromotionForm({ mode, promotion }: PromotionFormProps) {
   const [title, setTitle] = useState(promotion?.title ?? "")
   const [subtitle, setSubtitle] = useState(promotion?.subtitle ?? "")
   const [description, setDescription] = useState(promotion?.description ?? "")
-  const [bannerUrl, setBannerUrl] = useState(promotion?.banner_url ?? "")
   const [discountLabel, setDiscountLabel] = useState(promotion?.discount_label ?? "")
   const [startsAt, setStartsAt] = useState(promotion?.starts_at?.slice(0, 10) ?? "")
   const [endsAt, setEndsAt] = useState(promotion?.ends_at?.slice(0, 10) ?? "")
   const [isActive, setIsActive] = useState(promotion?.is_active ?? true)
   const [error, setError] = useState<string | null>(null)
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const [managedImages, setManagedImages] = useState<ManagedImage[]>(() =>
+    promotion?.banner_url
+      ? [{ id: promotion.id, url: promotion.banner_url, sort_order: 0 }]
+      : [],
+  )
+  const originalImageIds = useRef<Set<string>>(
+    new Set(promotion?.banner_url ? [promotion.id] : []),
+  )
+  const removedStorageUrl = useRef<string | null>(null)
+
+  function handleImagesChange(newImages: ManagedImage[]) {
+    const newIds = new Set(newImages.map((img) => img.id))
+    for (const origId of originalImageIds.current) {
+      if (!newIds.has(origId)) {
+        const prev = managedImages.find((img) => img.id === origId)
+        if (prev && !prev.file) {
+          removedStorageUrl.current = prev.url
+        }
+      }
+    }
+    setManagedImages(newImages)
+  }
+
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
     setError(null)
-    const fd = new FormData(e.currentTarget)
-    fd.set("is_active", isActive ? "on" : "off")
-    formAction(fd)
+
+    try {
+      const newFile = managedImages.find((img) => img.file)
+      let finalBannerUrl = managedImages.length > 0 ? managedImages[0].url : ""
+
+      if (newFile) {
+        const promotionId = promotion?.id ?? "temp"
+        finalBannerUrl = await uploadPromotionBanner(newFile.file!, promotionId)
+      }
+
+      const fd = new FormData(e.currentTarget)
+      fd.set("is_active", isActive ? "on" : "off")
+      fd.set("banner_url", finalBannerUrl)
+      formAction(fd)
+
+      if (removedStorageUrl.current) {
+        deletePromotionBanner(removedStorageUrl.current).catch(console.error)
+        removedStorageUrl.current = null
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Error al subir la imagen.")
+    }
   }
 
   useEffect(() => {
@@ -71,6 +114,17 @@ export function PromotionForm({ mode, promotion }: PromotionFormProps) {
     }
   }, [deleteResult, router])
 
+  const [uploading, setUploading] = useState(false)
+  const hasNewFile = managedImages.some((img) => img.file)
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+    if (hasNewFile) setUploading(true)
+    await handleSubmit(e)
+    setUploading(false)
+  }
+
+  const saving = isPending || uploading
+
   return (
     <>
       {error && (
@@ -79,7 +133,7 @@ export function PromotionForm({ mode, promotion }: PromotionFormProps) {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-8">
+      <form onSubmit={onSubmit} className="space-y-8">
         {mode === "edit" && promotion && (
           <input type="hidden" name="id" value={promotion.id} />
         )}
@@ -103,16 +157,6 @@ export function PromotionForm({ mode, promotion }: PromotionFormProps) {
           </div>
 
           <div className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="banner_url" className={fieldLabel}>URL del banner</Label>
-              <input id="banner_url" name="banner_url" value={bannerUrl} onChange={(e) => setBannerUrl(e.target.value)} className={inputClass} placeholder="https://..." />
-              {bannerUrl && (
-                <div className="relative mt-2 aspect-video w-full overflow-hidden border border-border/30 bg-secondary/60">
-                  <Image src={bannerUrl} alt="Banner preview" fill sizes="300px" className="object-cover" unoptimized />
-                </div>
-              )}
-            </div>
-
             <div className="space-y-2">
               <Label htmlFor="discount_label" className={fieldLabel}>Etiqueta de descuento</Label>
               <input id="discount_label" name="discount_label" value={discountLabel} onChange={(e) => setDiscountLabel(e.target.value)} className={inputClass} placeholder="Ej: -30%, 2x1" />
@@ -145,6 +189,8 @@ export function PromotionForm({ mode, promotion }: PromotionFormProps) {
           </div>
         </div>
 
+        <ImageUploader images={managedImages} onChange={handleImagesChange} maxImages={1} />
+
         <div className="flex flex-col gap-3 border-t border-border/30 pt-6 sm:flex-row sm:justify-between">
           {mode === "edit" && promotion ? (
             <Button type="button" variant="destructive" onClick={() => setShowDeleteConfirm(true)}>
@@ -156,8 +202,13 @@ export function PromotionForm({ mode, promotion }: PromotionFormProps) {
             <Button type="button" variant="outline" onClick={() => router.back()} className="rounded-full border-border/50 px-6 text-[0.78rem] font-light tracking-[0.1em] uppercase">
               Cancelar
             </Button>
-            <Button type="submit" disabled={isPending} className="rounded-full bg-foreground px-6 text-[0.78rem] font-light tracking-[0.1em] uppercase text-background hover:bg-foreground/90">
-              {isPending ? "Guardando..." : mode === "create" ? "Crear promoción" : "Guardar cambios"}
+            <Button type="submit" disabled={saving} className="rounded-full bg-foreground px-6 text-[0.78rem] font-light tracking-[0.1em] uppercase text-background hover:bg-foreground/90">
+              {saving ? (
+                <>
+                  <Loader2 className="size-4 animate-spin" />
+                  {uploading ? "Subiendo imagen..." : "Guardando..."}
+                </>
+              ) : mode === "create" ? "Crear promoción" : "Guardar cambios"}
             </Button>
           </div>
         </div>

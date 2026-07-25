@@ -80,3 +80,48 @@ export async function deleteProductImages(urls: string[]): Promise<void> {
 
   await supabase.storage.from(BUCKET).remove(paths)
 }
+
+// ── Promotion banners ────────────────────────────────────────
+
+const PROMO_BUCKET = "promotion-images"
+
+/**
+ * Upload a single promotion banner to Supabase Storage and return its public URL.
+ */
+export async function uploadPromotionBanner(
+  file: File,
+  promotionId: string,
+): Promise<string> {
+  const supabase = createClient()
+  const ts = Date.now()
+  const rand = Math.random().toString(36).slice(2, 8)
+  const ext = extFromMime(file.type)
+  const path = `banners/${promotionId}/${ts}-${rand}.${ext}`
+
+  const { error } = await supabase.storage
+    .from(PROMO_BUCKET)
+    .upload(path, file, { contentType: file.type, upsert: false })
+
+  if (error) throw new Error(error.message)
+
+  const { data } = supabase.storage.from(PROMO_BUCKET).getPublicUrl(path)
+  return data.publicUrl
+}
+
+/**
+ * Delete a promotion banner from Supabase Storage by its full public URL.
+ */
+export async function deletePromotionBanner(url: string): Promise<void> {
+  const supabase = createClient()
+
+  try {
+    const u = new URL(url)
+    const marker = `/object/public/${PROMO_BUCKET}/`
+    const idx = u.pathname.indexOf(marker)
+    if (idx === -1) return
+    const path = decodeURIComponent(u.pathname.slice(idx + marker.length))
+    await supabase.storage.from(PROMO_BUCKET).remove([path])
+  } catch {
+    // ignore malformed URLs
+  }
+}
