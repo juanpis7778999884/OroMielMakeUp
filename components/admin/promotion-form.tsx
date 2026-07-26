@@ -59,31 +59,34 @@ export function PromotionForm({ mode, promotion }: PromotionFormProps) {
     setManagedImages(newImages)
   }
 
-  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-    setError(null)
+ async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault()
+  setError(null)
 
-    try {
-      const newFile = managedImages.find((img) => img.file)
-      let finalBannerUrl = managedImages.length > 0 ? managedImages[0].url : ""
+  const form = e.currentTarget // capturar la referencia ANTES del await
 
-      if (newFile) {
-        finalBannerUrl = await uploadPromotionBanner(newFile.file!, promotionId)
-      }
+  try {
+    const newFile = managedImages.find((img) => img.file)
+    let finalBannerUrl = managedImages.length > 0 ? managedImages[0].url : ""
 
-      const fd = new FormData(e.currentTarget)
-      fd.set("is_active", isActive ? "on" : "off")
-      fd.set("banner_url", finalBannerUrl)
-      formAction(fd)
-
-      if (removedStorageUrl.current) {
-        deletePromotionBanner(removedStorageUrl.current).catch(console.error)
-        removedStorageUrl.current = null
-      }
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Error al subir la imagen.")
+    if (newFile) {
+      finalBannerUrl = await uploadPromotionBanner(newFile.file!, promotionId)
     }
+
+    const fd = new FormData(form)
+    fd.set("is_active", isActive ? "on" : "off")
+    fd.set("banner_url", finalBannerUrl)
+    formAction(fd)
+
+    if (removedStorageUrl.current) {
+      deletePromotionBanner(removedStorageUrl.current).catch(console.error)
+      removedStorageUrl.current = null
+    }
+  } catch (err) {
+    console.error("Error al guardar promoción:", err)
+    setError(err instanceof Error ? err.message : "Error al subir la imagen.")
   }
+}
 
   useEffect(() => {
     if (!serverResult) return
