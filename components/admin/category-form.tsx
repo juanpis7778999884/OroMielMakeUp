@@ -1,25 +1,22 @@
 "use client"
 
-import { useActionState, useEffect, useRef, useState, type ChangeEvent } from "react"
+import { useActionState, useEffect, useState, type ChangeEvent } from "react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Trash2 } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { slugify } from "@/lib/format"
 import type { Category } from "@/lib/types"
-import type { ActionResult } from "@/lib/actions/categories"
 import { createCategory, updateCategory, deleteCategory } from "@/lib/actions/categories"
+import { inputClass, fieldLabel, fieldHint } from "@/lib/admin-styles"
 
 type CategoryFormProps = {
   mode: "create" | "edit"
   category?: Category
 }
 
-const inputClass = "flex h-11 w-full rounded-sm border border-border/50 bg-background px-3.5 text-[0.85rem] font-light outline-none transition-all duration-300 focus:border-foreground/30 focus:shadow-[0_0_0_3px_oklch(0.55_0.07_65/0.06)]"
-const fieldLabel = "text-[0.72rem] font-light tracking-[0.15em] uppercase text-muted-foreground"
-const fieldHint = "text-[0.72rem] font-light text-muted-foreground/60"
 
 export function CategoryForm({ mode, category }: CategoryFormProps) {
   const router = useRouter()

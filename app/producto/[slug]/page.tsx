@@ -1,11 +1,9 @@
-import { Suspense } from "react"
 import { notFound } from "next/navigation"
 import type { Metadata } from "next"
 import { SiteShell } from "@/components/site-shell"
 import { ProductDetail } from "@/components/product/product-detail"
 import { ProductJsonLd, BreadcrumbJsonLd } from "@/components/seo/json-ld"
 import { getProductBySlug, getRelatedProducts, getSettings } from "@/lib/data"
-import { ProductDetailSkeleton } from "@/components/skeletons-product"
 
 export const revalidate = 60
 
@@ -98,13 +96,11 @@ export default async function ProductPage({ params }: Props) {
       />
       <BreadcrumbJsonLd items={breadcrumbItems} />
       <SiteShell settings={settings}>
-        <Suspense fallback={<ProductDetailSkeleton />}>
-          <ProductDetail
-            product={product}
-            related={related}
-            whatsapp={settings?.whatsapp}
-          />
-        </Suspense>
+        <ProductDetail
+          product={product}
+          related={related}
+          whatsapp={settings?.whatsapp}
+        />
       </SiteShell>
     </>
   )

@@ -3,8 +3,7 @@
 import { motion } from "framer-motion"
 import { Star } from "lucide-react"
 import type { Testimonial } from "@/lib/types"
-
-const ease = [0.22, 1, 0.36, 1] as const
+import { ease } from "@/lib/animation"
 
 export function TestimonialsSection({ testimonials }: { testimonials: Testimonial[] }) {
   if (!testimonials.length) return null
@@ -38,7 +37,7 @@ export function TestimonialsSection({ testimonials }: { testimonials: Testimonia
             transition={{ duration: 0.7, ease }}
             className="relative flex flex-col justify-between gap-10 overflow-hidden bg-espresso p-9 text-espresso-foreground shadow-luxe-lg sm:p-12"
           >
-            <span className="pointer-events-none absolute -right-2 -top-8 font-serif text-[12rem] font-light leading-none text-gold/20">
+            <span className="pointer-events-none absolute -right-2 -top-8 font-serif text-[12rem] font-light leading-none text-gold/20" aria-hidden="true">
               &rdquo;
             </span>
             <div className="relative z-10 flex flex-col gap-6">
@@ -78,7 +77,7 @@ export function TestimonialsSection({ testimonials }: { testimonials: Testimonia
                       <Star key={s} className="size-3 fill-current" />
                     ))}
                   </div>
-                  <span className="font-serif text-2xl font-light leading-none text-gold/40">&rdquo;</span>
+                  <span className="font-serif text-2xl font-light leading-none text-gold/40" aria-hidden="true">&rdquo;</span>
                 </div>
                 <blockquote className="line-clamp-4 flex-1 font-serif text-[1.05rem] font-light italic leading-[1.55] text-foreground/85">
                   {t.content}

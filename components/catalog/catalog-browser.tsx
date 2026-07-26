@@ -44,6 +44,7 @@ export function CatalogBrowser({
   const [products, setProducts] = useState<Product[]>(initialProducts)
   const [total, setTotal] = useState(initialTotal)
   const [loading, setLoading] = useState(false)
+  const [loadError, setLoadError] = useState(false)
   const [offset, setOffset] = useState(initialProducts.length)
 
   const activeCategory = initialCategory ?? "todos"
@@ -92,6 +93,7 @@ export function CatalogBrowser({
   async function handleLoadMore() {
     if (loading) return
     setLoading(true)
+    setLoadError(false)
     try {
       const result = await loadMoreProducts(
         { category: initialCategory, search: initialSearch, sort: initialSort },
@@ -102,7 +104,7 @@ export function CatalogBrowser({
       setTotal(result.total)
       setOffset((prev) => prev + result.products.length)
     } catch {
-      // silently fail
+      setLoadError(true)
     } finally {
       setLoading(false)
     }
@@ -118,7 +120,7 @@ export function CatalogBrowser({
     activeCategory !== "todos" || activeSearch || activeSort !== "recientes"
 
   return (
-    <div className="mx-auto max-w-[1500px] px-5 py-12 sm:px-8 sm:py-16 lg:px-14">
+    <div className="mx-auto max-w-[1600px] px-5 py-12 sm:px-8 sm:py-16 lg:px-14">
       {/* Editorial header */}
       <div className="mb-10 flex flex-col justify-between gap-6 border-b border-border/50 pb-8 md:flex-row md:items-end">
         <div>
@@ -156,7 +158,7 @@ export function CatalogBrowser({
             id="catalog-search"
             value={searchInput}
             onChange={(e) => handleSearchInput(e.target.value)}
-            className="flex h-12 w-full rounded-none border border-border/60 bg-background pl-10 pr-9 text-[0.82rem] font-light outline-none transition-all duration-300 focus:border-foreground/40"
+            className="flex h-12 w-full rounded-none border border-border/60 bg-background pl-10 pr-9 text-[0.82rem] font-light outline-none transition-all duration-300 focus:border-foreground/50 focus:ring-1 focus:ring-foreground/10"
             placeholder="Buscar productos..."
           />
           {searchInput && (
@@ -174,7 +176,7 @@ export function CatalogBrowser({
           <select
             value={activeSort}
             onChange={(e) => handleSortChange(e.target.value)}
-            className="h-12 rounded-none border border-border/60 bg-background px-4 text-[0.82rem] font-light outline-none transition-all duration-300 focus:border-foreground/40"
+            className="h-12 rounded-none border border-border/60 bg-background px-4 text-[0.82rem] font-light outline-none transition-all duration-300 focus:border-foreground/50 focus:ring-1 focus:ring-foreground/10"
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -263,15 +265,17 @@ export function CatalogBrowser({
           ))}
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center border border-border/50 bg-secondary/20 py-24">
-          <Package className="size-10 text-muted-foreground/30" strokeWidth={1} />
-          <h3 className="mt-5 text-[0.9rem] font-light text-foreground">
+        <div className="flex flex-col items-center justify-center border border-border/30 bg-background py-24">
+          <div className="flex size-16 items-center justify-center rounded-full border border-border/40">
+            <Package className="size-7 text-muted-foreground/30" strokeWidth={1} />
+          </div>
+          <h3 className="mt-6 text-[0.92rem] font-light text-foreground">
             No se encontraron productos
           </h3>
-          <p className="mt-1.5 text-[0.8rem] font-light text-muted-foreground">
+          <p className="mt-1.5 max-w-xs text-center text-[0.82rem] font-light leading-relaxed text-muted-foreground">
             {hasActiveFilters
               ? "Prueba cambiando los filtros o la búsqueda."
-              : "Aún no hay productos en el catálogo."}
+              : "Aún no hay productos disponibles en el catálogo."}
           </p>
           {hasActiveFilters && (
             <button
@@ -289,7 +293,7 @@ export function CatalogBrowser({
 
       {/* Load more */}
       {hasMore && (
-        <div className="mt-14 flex justify-center">
+        <div className="mt-14 flex flex-col items-center gap-3">
           <Button
             variant="outline"
             size="lg"
@@ -306,6 +310,11 @@ export function CatalogBrowser({
               `Cargar más (${products.length} de ${total})`
             )}
           </Button>
+          {loadError && (
+            <p className="text-[0.78rem] font-light text-destructive">
+              Error al cargar más productos. Intenta de nuevo.
+            </p>
+          )}
         </div>
       )}
 

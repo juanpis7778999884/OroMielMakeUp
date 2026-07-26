@@ -1,9 +1,7 @@
-import { Suspense } from "react"
 import type { Metadata } from "next"
 import { SiteShell } from "@/components/site-shell"
 import { getCatalogProducts, getSettings } from "@/lib/data"
 import { CatalogBrowser } from "@/components/catalog/catalog-browser"
-import { CatalogSkeleton } from "@/components/skeletons-catalog"
 import { BreadcrumbJsonLd } from "@/components/seo/json-ld"
 
 export const revalidate = 60
@@ -82,17 +80,15 @@ export default async function CatalogPage({
         ]}
       />
       <SiteShell settings={settings}>
-        <Suspense fallback={<CatalogSkeleton />}>
-          <CatalogBrowser
-            initialProducts={catalog.products}
-            categories={catalog.categories}
-            initialTotal={catalog.total}
-            initialCategory={category}
-            initialSearch={search}
-            initialSort={sort}
-            whatsapp={settings?.whatsapp}
-          />
-        </Suspense>
+        <CatalogBrowser
+          initialProducts={catalog.products}
+          categories={catalog.categories}
+          initialTotal={catalog.total}
+          initialCategory={category}
+          initialSearch={search}
+          initialSort={sort}
+          whatsapp={settings?.whatsapp}
+        />
       </SiteShell>
     </>
   )

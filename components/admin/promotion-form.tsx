@@ -7,20 +7,15 @@ import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import type { Promotion } from "@/lib/types"
-import type { ActionResult } from "@/lib/actions/promotions"
 import { createPromotion, updatePromotion, deletePromotion } from "@/lib/actions/promotions"
 import { ImageUploader, type ManagedImage } from "@/components/admin/image-uploader"
 import { uploadPromotionBanner, deletePromotionBanner } from "@/lib/supabase/storage"
+import { inputClass, textareaClass, fieldLabel, fieldHint } from "@/lib/admin-styles"
 
 type PromotionFormProps = {
   mode: "create" | "edit"
   promotion?: Promotion
 }
-
-const inputClass = "flex h-11 w-full rounded-sm border border-border/50 bg-background px-3.5 text-[0.85rem] font-light outline-none transition-all duration-300 focus:border-foreground/30 focus:shadow-[0_0_0_3px_oklch(0.55_0.07_65/0.06)]"
-const textareaClass = "flex w-full rounded-sm border border-border/50 bg-background px-3.5 py-2.5 text-[0.85rem] font-light outline-none transition-all duration-300 focus:border-foreground/30 focus:shadow-[0_0_0_3px_oklch(0.55_0.07_65/0.06)]"
-const fieldLabel = "text-[0.72rem] font-light tracking-[0.15em] uppercase text-muted-foreground"
-const fieldHint = "text-[0.72rem] font-light text-muted-foreground/60"
 
 export function PromotionForm({ mode, promotion }: PromotionFormProps) {
   const router = useRouter()
@@ -29,6 +24,8 @@ export function PromotionForm({ mode, promotion }: PromotionFormProps) {
     mode === "create" ? createPromotion : updatePromotion,
     null,
   )
+
+  const [promotionId] = useState(() => promotion?.id ?? crypto.randomUUID())
 
   const [title, setTitle] = useState(promotion?.title ?? "")
   const [subtitle, setSubtitle] = useState(promotion?.subtitle ?? "")
@@ -71,7 +68,6 @@ export function PromotionForm({ mode, promotion }: PromotionFormProps) {
       let finalBannerUrl = managedImages.length > 0 ? managedImages[0].url : ""
 
       if (newFile) {
-        const promotionId = promotion?.id ?? "temp"
         finalBannerUrl = await uploadPromotionBanner(newFile.file!, promotionId)
       }
 
@@ -134,9 +130,7 @@ export function PromotionForm({ mode, promotion }: PromotionFormProps) {
       )}
 
       <form onSubmit={onSubmit} className="space-y-8">
-        {mode === "edit" && promotion && (
-          <input type="hidden" name="id" value={promotion.id} />
-        )}
+        <input type="hidden" name="id" value={promotionId} />
 
         <div className="grid gap-8 lg:grid-cols-[1fr_300px]">
           <div className="space-y-6">

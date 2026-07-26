@@ -4,8 +4,7 @@ import { motion } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
 import { FaInstagram, FaWhatsapp } from "react-icons/fa"
 import { buildWhatsAppUrl } from "@/lib/whatsapp"
-
-const ease = [0.22, 1, 0.36, 1] as const
+import { ease } from "@/lib/animation"
 
 export function CtaSection({ whatsapp, instagram }: { whatsapp?: string | null; instagram?: string | null }) {
   const igHandle = instagram || "oromiel_make.up"
@@ -17,7 +16,7 @@ export function CtaSection({ whatsapp, instagram }: { whatsapp?: string | null; 
       <div className="pointer-events-none absolute inset-0 z-0 bg-[radial-gradient(ellipse_45%_45%_at_85%_90%,oklch(0.83_0.066_80/0.1),transparent)]" />
 
       <div className="relative z-10 mx-auto max-w-[1600px] px-5 py-24 sm:px-8 sm:py-36 lg:px-14">
-        <div className="pointer-events-none absolute inset-x-5 inset-y-12 z-0 border border-espresso-foreground/10 sm:inset-x-8 lg:inset-x-14" />
+        <div className="pointer-events-none absolute inset-x-8 inset-y-12 z-0 hidden border border-espresso-foreground/10 sm:block lg:inset-x-14" />
 
         <div className="relative z-10 mx-auto flex max-w-3xl flex-col items-center gap-8 text-center">
           <motion.span
@@ -68,7 +67,7 @@ export function CtaSection({ whatsapp, instagram }: { whatsapp?: string | null; 
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.36, ease }}
-            className="flex flex-col gap-3 pt-2 sm:flex-row"
+            className="flex flex-col items-center gap-3 pt-2 sm:flex-row"
           >
             <a
               href={buildWhatsAppUrl(whatsapp)}

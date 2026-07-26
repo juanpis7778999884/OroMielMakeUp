@@ -22,7 +22,7 @@ export function BrandLogo({
       />
       {showText && (
         <span className="flex flex-col leading-none">
-          <span className="font-serif text-[1.35rem] font-semibold tracking-[0.22em] text-foreground sm:text-xl">
+          <span className="font-serif text-[1.35rem] font-light tracking-[0.22em] text-foreground sm:text-xl">
             OROMIEL
           </span>
           <span className="mt-px text-[0.6rem] font-light uppercase tracking-[0.35em] text-muted-foreground">

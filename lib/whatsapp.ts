@@ -1,4 +1,3 @@
-import type { Product } from "./types"
 import { formatPrice } from "./format"
 
 const DEFAULT_MESSAGE = "Hola Oromiel Makeup! Quiero mas informacion sobre sus productos."
@@ -27,11 +26,6 @@ export function buildProductWhatsAppUrl(
 }
 
 /** Build a general inquiry WhatsApp link. */
-export function buildGeneralWhatsAppUrl(phone: string | null | undefined, message?: string): string {
-  return whatsappUrl(phone, message)
-}
-
-/** Alias used across the marketing components. */
 export function buildWhatsAppUrl(phone: string | null | undefined, message?: string): string {
   return whatsappUrl(phone, message)
 }
@@ -48,20 +42,4 @@ export function facebookUrl(handle: string | null | undefined): string {
   if (!handle) return "https://facebook.com"
   if (handle.startsWith("http")) return handle
   return `https://facebook.com/${handle.replace(/^@/, "")}`
-}
-
-/* ----- backwards-compatible helpers ----- */
-
-export function buildWhatsappLink(phone: string | null | undefined, message: string): string {
-  return whatsappUrl(phone, message)
-}
-
-export function productInquiryMessage(product: Product): string {
-  return `Hola Oromiel Makeup! Me interesa este producto:\n\n*${product.name}*\nPrecio: ${formatPrice(
-    product.price,
-  )}\n\nEsta disponible?`
-}
-
-export function generalInquiryMessage(): string {
-  return DEFAULT_MESSAGE
 }

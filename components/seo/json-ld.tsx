@@ -132,11 +132,6 @@ export function ProductJsonLd({
         name: "Oromiel Makeup",
       },
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: 5,
-      reviewCount: 1,
-    },
   }
 
   return (

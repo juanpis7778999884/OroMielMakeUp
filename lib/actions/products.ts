@@ -112,6 +112,7 @@ export async function createProduct(
 
   revalidatePath("/admin/productos")
   revalidatePath("/catalogo")
+  revalidatePath("/")
   redirect(`/admin/productos/${product.id}/editar`)
 }
 
@@ -182,6 +183,7 @@ export async function updateProduct(
   revalidatePath(`/admin/productos/${id}/editar`)
   revalidatePath("/catalogo")
   revalidatePath(`/producto/${slug}`)
+  revalidatePath("/")
   return { ok: true }
 }
 
@@ -228,5 +230,6 @@ export async function deleteProduct(
 
   revalidatePath("/admin/productos")
   revalidatePath("/catalogo")
+  revalidatePath("/")
   redirect("/admin/productos")
 }

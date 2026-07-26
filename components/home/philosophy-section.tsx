@@ -5,8 +5,7 @@ import Link from "next/link"
 import Image from "next/image"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
-
-const ease = [0.22, 1, 0.36, 1] as const
+import { ease } from "@/lib/animation"
 
 const points = [
   { k: "Curaduría", v: "Cada producto elegido a mano por su calidad." },
@@ -25,7 +24,7 @@ export function PhilosophySection() {
       <div className="relative z-10 mx-auto grid max-w-[1600px] items-center gap-12 px-5 py-20 sm:px-8 sm:py-28 lg:grid-cols-2 lg:gap-20 lg:px-14">
         {/* Image side with parallax */}
         <div className="relative order-2 lg:order-1">
-          <span className="pointer-events-none absolute -top-12 left-0 z-0 font-serif text-[6rem] font-light leading-none text-outline sm:text-[8rem]">
+          <span className="pointer-events-none absolute -top-12 left-0 z-0 font-serif text-[6rem] font-light leading-none text-outline sm:text-[8rem]" aria-hidden="true">
             Oromiel
           </span>
           <div className="relative z-10 aspect-[4/5] w-full max-w-md overflow-hidden shadow-luxe-lg lg:aspect-[5/6]">
@@ -55,7 +54,7 @@ export function PhilosophySection() {
             transition={{ duration: 0.6, ease }}
             className="flex items-center gap-3"
           >
-            <span className="text-[0.62rem] font-light tracking-[0.24em] text-gold tabular-nums">✦</span>
+            <span className="text-[0.62rem] font-light tracking-[0.24em] text-gold tabular-nums" aria-hidden="true">✦</span>
             <span className="h-px w-8 bg-gold/60" />
             <span className="eyebrow">Nuestra filosofía</span>
           </motion.div>

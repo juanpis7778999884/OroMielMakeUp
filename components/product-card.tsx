@@ -38,19 +38,19 @@ export function ProductCard({ product, whatsapp }: { product: Product; whatsapp?
     <div className="group flex flex-col">
       <Link
         href={`/producto/${product.slug}`}
-        className="relative block aspect-[4/5] overflow-hidden bg-secondary/50 transition-shadow duration-500 group-hover:shadow-luxe"
+        className="relative block aspect-[4/5] overflow-hidden bg-secondary/50 transition-shadow duration-500 hover:shadow-luxe"
       >
         <Image
           src={image || "/placeholder.svg"}
           alt={product.name}
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
-          className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.06]"
+          className="object-cover transition-transform duration-[1.2s] ease-out group-hover:scale-[1.05]"
         />
         {/* Hover wash */}
-        <div className="absolute inset-0 bg-espresso/0 transition-colors duration-500 group-hover:bg-espresso/10" />
+        <div className="absolute inset-0 bg-gradient-to-t from-espresso/0 via-espresso/0 to-espresso/0 transition-all duration-500 group-hover:from-espresso/8 group-hover:via-transparent group-hover:to-transparent" />
         {/* Thin frame reveal on hover */}
-        <div className="pointer-events-none absolute inset-3 border border-background/0 transition-colors duration-500 group-hover:border-background/40" />
+        <div className="pointer-events-none absolute inset-3 border border-background/0 transition-colors duration-500 group-hover:border-background/30" />
 
         <div className="absolute left-3 top-3 z-10 flex flex-col gap-1.5">
           {badge && <Badge className={`${BADGE_BASE} ${badge.className}`}>{badge.label}</Badge>}
@@ -61,7 +61,7 @@ export function ProductCard({ product, whatsapp }: { product: Product; whatsapp?
 
         {/* Quick-view reveal */}
         {!soldOut && (
-          <span className="absolute inset-x-3 bottom-3 z-10 flex translate-y-3 items-center justify-center gap-2 bg-background/92 py-2.5 text-[0.6rem] font-light tracking-[0.22em] uppercase text-foreground opacity-0 backdrop-blur-sm transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+          <span className="absolute inset-x-3 bottom-3 z-10 flex translate-y-2.5 items-center justify-center gap-2 border border-foreground/10 bg-background/95 py-2.5 text-[0.6rem] font-light tracking-[0.22em] uppercase text-foreground opacity-0 backdrop-blur-md transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
             <Eye className="size-3.5" strokeWidth={1.5} />
             Ver producto
           </span>

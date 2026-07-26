@@ -113,7 +113,7 @@ export default async function AdminDashboardPage() {
           title="Testimonios"
           value={testimonials}
           icon={Star}
-          href="/admin/testimonios"
+          href="/admin"
           description="Reseñas de clientas"
         />
       </div>

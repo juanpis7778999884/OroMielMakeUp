@@ -14,6 +14,7 @@ export async function createPromotion(
   _prev: ActionResult | null,
   formData: FormData,
 ): Promise<ActionResult> {
+  const id = String(formData.get("id") || "").trim()
   const title = String(formData.get("title") || "").trim()
   const subtitle = String(formData.get("subtitle") || "").trim() || null
   const description = String(formData.get("description") || "").trim() || null
@@ -29,6 +30,7 @@ export async function createPromotion(
   const supabase = await createClient()
 
   const { error } = await supabase.from("promotions").insert({
+    ...(id ? { id } : {}),
     title,
     subtitle,
     description,

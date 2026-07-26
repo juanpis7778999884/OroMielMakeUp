@@ -62,7 +62,7 @@ export function ValuesStrip() {
                 <h3 className="font-serif text-[1.4rem] font-light text-foreground">{v.title}</h3>
                 <p className="mt-2.5 text-[0.82rem] font-light leading-[1.8] text-muted-foreground">{v.desc}</p>
               </div>
-              <span className="absolute bottom-0 left-0 h-px w-0 bg-gold transition-all duration-500 group-hover:w-full lg:block" />
+              <span className="absolute bottom-0 left-0 hidden h-px w-0 bg-gold transition-all duration-500 group-hover:w-full lg:block" />
             </motion.div>
           ))}
         </div>

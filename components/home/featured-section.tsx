@@ -5,8 +5,7 @@ import { motion } from "framer-motion"
 import { ArrowRight } from "lucide-react"
 import { ProductCard } from "@/components/product-card"
 import type { Product } from "@/lib/types"
-
-const ease = [0.22, 1, 0.36, 1] as const
+import { ease } from "@/lib/animation"
 
 export function FeaturedSection({
   title,
@@ -36,7 +35,7 @@ export function FeaturedSection({
                 transition={{ duration: 0.5 }}
                 className="mb-4 flex items-center gap-3"
               >
-                <span className="text-[0.62rem] font-light tracking-[0.24em] text-gold tabular-nums">✦</span>
+                <span className="text-[0.62rem] font-light tracking-[0.24em] text-gold tabular-nums" aria-hidden="true">✦</span>
                 <span className="h-px w-8 bg-gold/60" />
                 <span className="eyebrow">{subtitle}</span>
               </motion.div>

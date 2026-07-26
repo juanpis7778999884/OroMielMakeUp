@@ -1,4 +1,3 @@
-import { Suspense } from "react"
 import { SiteShell } from "@/components/site-shell"
 import { HeroSection } from "@/components/home/hero-section"
 import { ValuesStrip } from "@/components/home/values-strip"
@@ -7,7 +6,6 @@ import { PhilosophySection } from "@/components/home/philosophy-section"
 import { FeaturedSection } from "@/components/home/featured-section"
 import { TestimonialsSection } from "@/components/home/testimonials-section"
 import { CtaSection } from "@/components/home/cta-section"
-import { ProductGridSkeleton } from "@/components/skeletons"
 import {
   OrganizationJsonLd,
   WebsiteJsonLd,
@@ -42,23 +40,19 @@ export default async function HomePage() {
         <ValuesStrip />
         <CategoriesSection categories={categories} />
         <PhilosophySection />
-        <Suspense fallback={<ProductGridSkeleton count={4} />}>
+        <FeaturedSection
+          title="Destacados"
+          subtitle="Selección especial"
+          products={featured}
+          whatsapp={settings?.whatsapp}
+        />
+        {bestsellers.length > 0 && (
           <FeaturedSection
-            title="Destacados"
-            subtitle="Selección especial"
-            products={featured}
+            title="Los más vendidos"
+            subtitle="Favoritos de nuestras clientas"
+            products={bestsellers}
             whatsapp={settings?.whatsapp}
           />
-        </Suspense>
-        {bestsellers.length > 0 && (
-          <Suspense fallback={<ProductGridSkeleton count={4} />}>
-            <FeaturedSection
-              title="Los más vendidos"
-              subtitle="Favoritos de nuestras clientas"
-              products={bestsellers}
-              whatsapp={settings?.whatsapp}
-            />
-          </Suspense>
         )}
         <TestimonialsSection testimonials={testimonials} />
         <CtaSection whatsapp={settings?.whatsapp} instagram={settings?.instagram} />

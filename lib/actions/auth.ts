@@ -21,16 +21,10 @@ export async function login(
 
  const supabase = await createClient()
 
-console.log("URL:", process.env.NEXT_PUBLIC_SUPABASE_URL)
-console.log("KEY:", process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.substring(0, 20))
-
 const { data, error } = await supabase.auth.signInWithPassword({
   email,
   password,
 })
-
-console.log(data)
-console.log(error)
 
   if (error) {
     return {

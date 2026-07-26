@@ -5,6 +5,7 @@ import Image from "next/image"
 import { motion } from "framer-motion"
 import { ArrowUpRight } from "lucide-react"
 import type { Category } from "@/lib/types"
+import { ease } from "@/lib/animation"
 
 const categoryImages: Record<string, string> = {
   maquillaje: "/images/cat-maquillaje.png",
@@ -15,8 +16,6 @@ const categoryBlurbs: Record<string, string> = {
   maquillaje: "Tonos, texturas y acabados para expresar tu estilo.",
   "cuidado-piel": "Rutinas y fórmulas para una piel sana y luminosa.",
 }
-
-const ease = [0.22, 1, 0.36, 1] as const
 
 export function CategoriesSection({ categories }: { categories: Category[] }) {
   if (!categories.length) return null
@@ -63,7 +62,7 @@ export function CategoriesSection({ categories }: { categories: Category[] }) {
               <div className="pointer-events-none absolute inset-4 border border-background/20 transition-colors duration-500 group-hover:border-gold/50" />
 
               {/* Big index numeral */}
-              <span className="absolute left-7 top-6 font-serif text-5xl font-light leading-none text-background/40 tabular-nums transition-colors duration-500 group-hover:text-gold sm:left-9 sm:top-8">
+              <span className="absolute left-7 top-6 font-serif text-5xl font-light leading-none text-background/40 tabular-nums transition-colors duration-500 group-hover:text-gold sm:left-9 sm:top-8" aria-hidden="true">
                 {String(i + 1).padStart(2, "0")}
               </span>
 

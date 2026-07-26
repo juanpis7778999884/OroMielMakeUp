@@ -1,6 +1,6 @@
 "use client"
 
-import { useCallback, useMemo, useState } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { motion } from "framer-motion"
@@ -62,6 +62,10 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
 
   const waUrl = buildProductWhatsAppUrl(whatsapp, product.name, product.price)
 
+  useEffect(() => {
+    navigator.sendBeacon("/api/track", JSON.stringify({ productId: product.id, type: "view" }))
+  }, [product.id])
+
   const prev = useCallback(() => {
     setActiveIdx((i) => (i === 0 ? allImages.length - 1 : i - 1))
   }, [allImages.length])
@@ -83,7 +87,7 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
   }
 
   return (
-    <div className="mx-auto max-w-[1500px] px-5 py-8 sm:px-8 sm:py-12 lg:px-14">
+    <div className="mx-auto max-w-[1600px] px-5 py-8 sm:px-8 sm:py-12 lg:px-14">
       {/* Breadcrumb */}
       <nav className="mb-10 flex items-center gap-1.5 text-[0.7rem] font-light tracking-[0.12em] uppercase text-muted-foreground/60">
         <Link href="/" className="transition-colors duration-300 hover:text-foreground">
@@ -117,7 +121,7 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
           transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col gap-3"
         >
-          <div className="relative aspect-square overflow-hidden bg-secondary/40">
+          <div className="relative aspect-square overflow-hidden bg-secondary/40 shadow-luxe">
             <Image
               src={activeImage}
               alt={product.name}
@@ -126,6 +130,7 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
               className="object-cover"
               priority
             />
+            <div className="pointer-events-none absolute inset-3 border border-background/20" />
 
             <div className="absolute left-4 top-4 z-10 flex flex-col gap-1.5">
               <Badge className={`rounded-none px-2.5 py-1 text-[0.58rem] uppercase tracking-[0.16em] ${status.className}`}>{status.label}</Badge>
@@ -169,8 +174,8 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
                   className={cn(
                     "relative size-16 flex-shrink-0 overflow-hidden transition-all duration-300 sm:size-20",
                     i === activeIdx
-                      ? "ring-1 ring-foreground/40"
-                      : "ring-1 ring-transparent opacity-60 hover:opacity-90",
+                      ? "ring-2 ring-foreground/40 opacity-100"
+                      : "ring-1 ring-border/50 opacity-50 hover:opacity-80",
                   )}
                 >
                   <Image
@@ -315,9 +320,16 @@ export function ProductDetail({ product, related, whatsapp }: Props) {
       {/* Related products */}
       {related.length > 0 && (
         <section className="mt-20 border-t border-border/30 pt-16">
-          <h2 className="mb-10 text-center font-serif text-2xl font-light text-foreground">
-            Productos relacionados
-          </h2>
+          <div className="mb-10 flex flex-col items-center gap-3 text-center">
+            <div className="flex items-center gap-3">
+              <span className="h-px w-8 bg-gold/60" />
+              <span className="eyebrow">También te puede gustar</span>
+              <span className="h-px w-8 bg-gold/60" />
+            </div>
+            <h2 className="font-serif text-2xl font-light text-foreground">
+              Productos relacionados
+            </h2>
+          </div>
           <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-4 md:grid-cols-4">
             {related.map((p) => (
               <ProductCard key={p.id} product={p} whatsapp={whatsapp} />

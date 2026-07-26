@@ -7,15 +7,12 @@ import { Label } from "@/components/ui/label"
 import type { Settings } from "@/lib/types"
 import type { ActionResult } from "@/lib/actions/settings"
 import { updateSettings } from "@/lib/actions/settings"
+import { inputClass, textareaClass, fieldLabel, fieldHint } from "@/lib/admin-styles"
 
 type SettingsFormProps = {
   settings: Settings
 }
 
-const inputClass = "flex h-11 w-full rounded-sm border border-border/50 bg-background px-3.5 text-[0.85rem] font-light outline-none transition-all duration-300 focus:border-foreground/30 focus:shadow-[0_0_0_3px_oklch(0.55_0.07_65/0.06)]"
-const textareaClass = "flex w-full rounded-sm border border-border/50 bg-background px-3.5 py-2.5 text-[0.85rem] font-light outline-none transition-all duration-300 focus:border-foreground/30 focus:shadow-[0_0_0_3px_oklch(0.55_0.07_65/0.06)]"
-const fieldLabel = "text-[0.72rem] font-light tracking-[0.15em] uppercase text-muted-foreground"
-const fieldHint = "text-[0.72rem] font-light text-muted-foreground/60"
 const sectionTitle = "font-serif text-base font-normal text-foreground"
 
 function Field({
@@ -147,9 +144,9 @@ export function SettingsForm({ settings }: SettingsFormProps) {
         <section>
           <h2 className={sectionTitle}>Ubicación en el mapa</h2>
           <div className="mt-5 space-y-2">
-            <Label htmlFor="map_embed" className={fieldLabel}>Código de incrustación de Google Maps</Label>
-            <textarea id="map_embed" name="map_embed" value={mapEmbed} onChange={(e) => setMapEmbed(e.target.value)} rows={3} className={textareaClass} placeholder='<iframe src="https://www.google.com/maps/...">' />
-            <p className={fieldHint}>Pega el código &lt;iframe&gt; de Google Maps. Se muestra en la página de contacto.</p>
+            <Label htmlFor="map_embed" className={fieldLabel}>URL de Google Maps</Label>
+            <textarea id="map_embed" name="map_embed" value={mapEmbed} onChange={(e) => setMapEmbed(e.target.value)} rows={3} className={textareaClass} placeholder="https://www.google.com/maps/embed?..." />
+            <p className={fieldHint}>Pega la URL de incrustación de Google Maps (la que empieza con https://www.google.com/maps/embed). Se muestra en la página de contacto.</p>
             {mapEmbed && (
               <div className="mt-2 overflow-hidden border border-border/30" dangerouslySetInnerHTML={{ __html: mapEmbed }} />
             )}

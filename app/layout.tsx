@@ -1,5 +1,4 @@
 import { Suspense } from "react"
-import dynamic from "next/dynamic"
 import type { Metadata, Viewport } from "next"
 import { Cormorant_Garamond, Montserrat, Great_Vibes } from "next/font/google"
 import "./globals.css"

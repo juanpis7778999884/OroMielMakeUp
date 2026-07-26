@@ -6,8 +6,7 @@ import Image from "next/image"
 import { motion, useScroll, useTransform } from "framer-motion"
 import { ArrowDown, ArrowUpRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const ease = [0.22, 1, 0.36, 1] as const
+import { ease } from "@/lib/animation"
 
 const stats = [
   { value: "100%", label: "Belleza\nseleccionada" },
@@ -122,7 +121,7 @@ export function HeroSection({ title, subtitle }: { title?: string | null; subtit
         {/* Right: layered image composition */}
         <motion.div style={{ opacity }} className="relative mx-auto w-full max-w-lg">
           {/* Decorative outlined numeral */}
-          <span className="pointer-events-none absolute -left-6 -top-10 z-0 font-serif text-[7rem] font-light leading-none text-outline sm:-left-10 sm:text-[9rem]">
+          <span className="pointer-events-none absolute -left-6 -top-10 z-0 font-serif text-[7rem] font-light leading-none text-outline sm:-left-10 sm:text-[9rem]" aria-hidden="true">
             01
           </span>
 
@@ -164,13 +163,13 @@ export function HeroSection({ title, subtitle }: { title?: string | null; subtit
           </motion.div>
 
           {/* Vertical side label */}
-          <span className="vertical-rl absolute -left-3 top-1/2 z-20 hidden -translate-y-1/2 text-[0.6rem] font-light tracking-[0.35em] uppercase text-muted-foreground/70 lg:block">
+          <span className="vertical-rl absolute -left-3 top-1/2 z-20 hidden -translate-y-1/2 text-[0.6rem] font-light tracking-[0.35em] uppercase text-muted-foreground/70 lg:block" aria-hidden="true">
             Maquillaje · Skincare
           </span>
 
           {/* Floating meta chip */}
           <div className="absolute -bottom-5 left-4 z-30 flex items-center gap-3 border border-border/60 bg-background/90 px-5 py-3 shadow-luxe backdrop-blur-md">
-            <span className="font-serif text-3xl font-light leading-none text-gold">✦</span>
+            <span className="font-serif text-3xl font-light leading-none text-gold" aria-hidden="true">✦</span>
             <span className="text-[0.58rem] font-light leading-tight tracking-[0.16em] uppercase text-muted-foreground">
               Hecho con
               <br />
